@@ -15,6 +15,11 @@ infos = []
 headers = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
 }
+proxies = {
+    'http': 'http://120.26.110.59:8080',
+    'http': 'http://120.52.32.46:80',
+    'http': 'http://218.85.133.62:80',
+}
 
 def CheckArgs():
     if(len(sys.argv) < 2):
@@ -37,7 +42,7 @@ def Request(aid):
 def SendRequest(n):
     url = 'https://api.bilibili.com/x/web-interface/view?aid=' + str(n[0])
     print('正在获取av' + str(n[0]) + '的信息')
-    r = s.get(url, headers=headers)
+    r = s.get(url, headers=headers, proxies=proxies)
     text = r.text
     info_json = json.loads(text)
     if info_json['code'] != 0:
@@ -95,7 +100,7 @@ if __name__ == '__main__':
     s = requests.Session()
     GetInfos()
     for t in range(len(Threads)):
-        time.sleep(0.1)
+        time.sleep(1)
         Threads[t].start()
     for t in range(len(Threads)):
         Threads[t].join()
